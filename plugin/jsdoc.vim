@@ -1,6 +1,6 @@
 function! JSDocAdd()
     let l:jsDocregex = '\s*\([a-zA-Z]*\)\s*[:=]\s*function\s*(\s*\(.*\)\s*).*'
-    let l:jsDocregex2 = '\s*function \([a-zA-Z]*\)\s*(\s*\(.*\)\s*).*'
+    let l:jsDocregex2 = '.*function \([_a-zA-Z]*\)\s*(\s*\(.*\)\s*).*'
 
     let l:line = getline('.')
     let l:indent = indent('.')
@@ -20,18 +20,21 @@ function! JSDocAdd()
       let l:lines = []
       let l:desc = input('Description: ')
       let l:funcName = substitute(l:line, l:regex, '\1', "g")
+
       call add(l:lines, l:space. '/**')
       call add(l:lines, l:space . ' * ' . l:funcName .'() ' . l:desc)
       let l:arg = substitute(l:line, l:regex, '\2', "g")
       let l:args = split(l:arg, '\s*,\s*')
       call add(l:lines, l:space . ' *')
       for l:arg in l:args
-          let l:attrtype = input(l:arg . 'type: ')
-          let l:attrdesc = input(l:arg . 'description: ')
+         redraw
+         echom 'Document parameter: ' . l:arg
+          let l:attrtype = input('Type: ')
+          let l:attrdesc = input('Description: ')
           call add(l:lines, l:space . ' * @param {' . l:attrtype . '} ' . l:arg . ' - ' . l:attrdesc . '.')
       endfor
       call add(l:lines, l:space . ' *')
-      let l:returntype = input('Type returned: ')
+      let l:returntype = input(l:funcName . ' type returned: ')
       call add(l:lines, l:space . ' * @return {' . l:returntype . '}')
       call add(l:lines, l:space . ' */')
       call append(line('.')-1, l:lines)
