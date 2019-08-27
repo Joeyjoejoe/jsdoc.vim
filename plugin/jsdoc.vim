@@ -26,10 +26,13 @@ function! JSDocAdd()
       let l:args = split(l:arg, '\s*,\s*')
       call add(l:lines, l:space . ' *')
       for l:arg in l:args
-          call add(l:lines, l:space . ' * @param {...} ' . l:arg . " -")
+          let l:attrtype = input(l:arg . 'type: ')
+          let l:attrdesc = input(l:arg . 'description: ')
+          call add(l:lines, l:space . ' * @param {' . l:attrtype . '} ' . l:arg . ' - ' . l:attrdesc . '.')
       endfor
       call add(l:lines, l:space . ' *')
-      call add(l:lines, l:space . ' * @return {...}')
+      let l:returntype = input('Type returned: ')
+      call add(l:lines, l:space . ' * @return {' . l:returntype . '}')
       call add(l:lines, l:space . ' */')
       call append(line('.')-1, l:lines)
     endif
