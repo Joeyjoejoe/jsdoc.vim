@@ -22,7 +22,7 @@ function! JSDocAdd()
       let l:funcName = substitute(l:line, l:regex, '\1', "g")
 
       call add(l:lines, l:space. '/**')
-      call add(l:lines, l:space . ' * ' . l:funcName .'() ' . l:desc)
+      call add(l:lines, l:space . ' * ' . l:desc)
       let l:arg = substitute(l:line, l:regex, '\2', "g")
       let l:args = split(l:arg, '\s*,\s*')
       call add(l:lines, l:space . ' *')
